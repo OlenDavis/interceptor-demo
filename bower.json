@@ -1,0 +1,24 @@
+{
+  "name": "interceptor-demo",
+  "version": "0.0.0",
+  "homepage": "https://github.com/OlenDavis/interceptor-demo",
+  "authors": [
+    "Olen Davis <spelledlikeitsounds@gmail.com>"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angoolar-bootstrap": "~0.1.0",
+    "angoolar-ui": "~0.0.0"
+  },
+  "resolutions": {
+    "angoolar-bootstrap": "~0.1.0"
+  }
+}

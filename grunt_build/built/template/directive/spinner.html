@@ -1,0 +1,17 @@
+<span class="heavy scale-in">
+	<div>
+		<my-centered-div class="absolute whole-width whole-height">
+			<img 
+				ng-if="imgSrc"
+				class ="block whole-rounded no-overflow"
+				style="width: 1em"
+				ng-src="{[{ imgSrc }]}" 
+			/>
+
+			<div
+				ng-if="! imgSrc"
+				ng-transclude
+			></div>
+		</my-centered-div>
+	</div>
+</span>

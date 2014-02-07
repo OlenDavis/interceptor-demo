@@ -1,0 +1,13 @@
+.shelf .shelf-left, .shelf .shelf-right {
+  width: 1em;
+  padding: 0.5em; }
+.shelf .shelf-content-container {
+  padding-left: 2em;
+  padding-right: 2em; }
+.shelf .shelf-content > * {
+  display: -moz-inline-stack;
+  display: inline-block;
+  vertical-align: middle;
+  *vertical-align: auto;
+  zoom: 1;
+  *display: inline; }

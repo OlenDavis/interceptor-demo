@@ -1,0 +1,20 @@
+<div>
+	<div
+		ng-if ="when"
+		class ="absolute tl tr bl br whole-width whole-height fade-in"
+	>
+
+		<div
+			class ="absolute tl whole-width whole-height rounded coloring mostly-opaque"
+			ng-class="shieldClass"
+		></div>
+
+		<my-centered-div
+			class ="absolute tl whole-width whole-height"
+		>
+			<span class="spinner {[{ spinnerClass }]}"></span>
+			<div ng-transclude></div>
+		</my-centered-div>
+
+	</div>
+</div>

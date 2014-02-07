@@ -1,0 +1,59 @@
+<div>
+	<div class="relative whole-height whole-width">
+
+		<!-- This is a ul for ease selecting it in the directive, given that Angular lets you select elements by tag name -->
+		<div class="shelf-content-container relative">
+			<div class="relative">
+
+				<ul
+					class="shelf-content whole-width whole-height no-overflow nowrap"
+					ng-transclude
+				></ul>
+
+				<div
+					ng-if="ShelfController.steps > 1 && scrollBar"
+					class="absolute sheer fade-in"
+					ng-class="{
+						'tl tr': scrollBar == 'top',
+						'bl br': scrollBar != 'top'
+					}"
+				>
+					<div class="transitions secondary b-bordered heavy relative" ng-style="{
+						width: ( 100 / ShelfController.steps * ShelfController.width / ShelfController.horizontalMovement ) + '%',
+						left: ( ShelfController.currentStep() / ShelfController.steps * 100 ) + '%'
+					}"></div>
+				</div>
+
+			</div>
+		</div>
+
+		<div
+			ng-click      ="ShelfController.canGoLeft() && ShelfController.goLeft()"
+			class         ="shelf-left not-selectable absolute above rounded secondary shallow-button transitions lr-padded no-overflow tl bl"
+			ng-class      ="{
+				transparent               : ! ShelfController.canGoLeft(),
+				'link opaque-when-hovered': ShelfController.canGoLeft(),
+				'mostly-opaque'           : ShelfController.canGoLeft() && ShelfController.buttonUsed
+			}"
+		>
+			<my-centered-div class="absolute tl-when-ff whole-width whole-height">
+				<span class="h4 b icon-angle-left"></span>
+			</my-centered-div>
+		</div>
+
+		<div
+			ng-click      ="ShelfController.canGoRight() && ShelfController.goRight()"
+			class         ="shelf-right not-selectable absolute above rounded secondary shallow-button transitions lr-padded no-overflow tr br"
+			ng-class      ="{
+				transparent               : ! ShelfController.canGoRight(),
+				'link opaque-when-hovered': ShelfController.canGoRight(),
+				'mostly-opaque'           : ShelfController.canGoRight() && ShelfController.buttonUsed
+			}"
+		>
+			<my-centered-div class="absolute tl-when-ff whole-width whole-height">
+				<span class="h4 b icon-angle-right"></span>
+			</my-centered-div>
+		</div>
+
+	</div>
+</div>

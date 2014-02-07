@@ -1,0 +1,7 @@
+@import "partial/common";
+
+@import "partial/animations";
+
+$current-with-this-modifiers: true;
+
+@import "partial/structure"; // this is all the common styling among all web apps

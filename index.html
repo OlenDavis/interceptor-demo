@@ -1,0 +1,52 @@
+<!doctype html>
+<html
+	ng-app ="<!-- @echo ngApp -->"
+	class  ="relative whole-width whole-height no-overflow"
+>
+<head>
+	<title>The 3 WTFs of Interceptors</title>
+
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta name="format-detection" content="telephone=no" /><!-- Prevents numbers from being accidentally interpretted as a dialable number. -->
+	<meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no" />
+	<!-- <meta name="apple-mobile-web-app-capable" content="yes" /> --> <!-- Makes the page have a 'Add to Homescreen' option in the popout menu. -->
+	<!-- <meta name="apple-mobile-web-app-status-bar-style" content="black" /> --> <!-- Changes the style of the bar that has time and whatnot. -->
+	<!-- <meta name="robots" content="noindex, nofollow" /> --> <!-- For development purposes, prevents robots from indexing us, just in case it's somehow public. -->
+	<!-- <link rel="apple-touch-icon-precomposed" href="images/icon.png" /> --> <!-- Explicitly defines the image used for as the site's icon if added to the homescreen. -->
+
+<!-- @if applicationConfig_type=='production' -->
+	<link type="text/css" rel="stylesheet" href="<!-- @echo applicationConfig_defaultScheme--><!-- @echo applicationConfig_staticFileDomain-->/<!-- @echo applicationConfig_staticFileDirectory -->/css/all.css<!-- @echo applicationConfig_staticFileSuffix -->" />
+<!-- @endif -->
+
+<!-- @if applicationConfig_type=='development' -->
+	<!-- build:style head -->
+	<!-- /build -->
+<!-- @endif -->
+	
+	<script type="text/javascript" src="//use.typekit.net/qsz5dms.js"></script>
+	<script type="text/javascript">try{Typekit.load();}catch(e){}</script>
+
+<!-- @if applicationConfig_type=='production' -->
+	<script type="text/javascript" src="<!-- @echo applicationConfig_defaultScheme--><!-- @echo applicationConfig_staticFileDomain-->/<!-- @echo applicationConfig_staticFileDirectory -->/js/all.js<!-- @echo applicationConfig_staticFileSuffix -->"></script>
+<!-- @endif -->
+
+<!-- @if applicationConfig_type=='development' -->
+	<!-- build:script head -->
+	<!-- /build -->
+<!-- @endif -->
+</head>
+<body class="relative whole-width whole-height no-overflow">
+	
+	<div ui-view >
+	</div>
+
+<!-- @if applicationConfig_type=='development' -->
+	<!-- build:script tail -->
+	<!-- /build -->
+<!-- @endif -->
+
+<!-- @if applicationConfig_type=='development' -->
+	<script src="http://localhost:<!-- @echo liveReloadPort -->/livereload.js"></script>
+<!-- @endif -->
+
+</body>

@@ -1,0 +1,18 @@
+<div>
+	<div
+		class     ="link"
+		ng-repeat ="option in options"
+		ng-click  ="MultiSelectController.toggleOption( option )"
+		ng-class  ="MultiSelectController.getOptionClass( option )"
+	>
+
+		<input
+			type       ="checkbox"
+			ng-checked ="MultiSelectController.isSelected( option )"
+			name       ="{[{ MultiSelectController.getOptionName( option ) }]}"
+		/>
+
+		<span>{[{ MultiSelectController.getOptionLabel( option ) }]}</span>
+
+	</div>
+</div>
