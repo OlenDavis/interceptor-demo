@@ -24,6 +24,7 @@
     };
 
     AppConfig.prototype.setupInterceptors = function() {
+      this.addLowestPrecedenceInterceptor(root.OuterInterceptor);
       this.addHighestPrecedenceInterceptor(root.AuthenticationInterceptor);
       this.addHighestPrecedenceInterceptor(root.CommunicationInterceptor);
       return this.addHighestPrecedenceInterceptor(root.RuinousInterceptor);

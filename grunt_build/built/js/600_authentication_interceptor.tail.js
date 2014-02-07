@@ -15,8 +15,18 @@
 
     AuthenticationInterceptor.prototype.$_name = 'AuthenticationInterceptor';
 
-    AuthenticationInterceptor.prototype.interceptRejectedRequest = function(rejectedRequest) {
-      return AuthenticationInterceptor.__super__.interceptRejectedRequest.apply(this, arguments);
+    AuthenticationInterceptor.prototype.$_dependencies = ['$rootScope'];
+
+    AuthenticationInterceptor.prototype.interceptRequest = function(request) {
+      return AuthenticationInterceptor.__super__.interceptRequest.apply(this, arguments);
+    };
+
+    AuthenticationInterceptor.prototype.interceptResponse = function(response) {
+      return AuthenticationInterceptor.__super__.interceptResponse.apply(this, arguments);
+    };
+
+    AuthenticationInterceptor.prototype.interceptRejectedResponse = function(rejectedResponse) {
+      return AuthenticationInterceptor.__super__.interceptRejectedResponse.apply(this, arguments);
     };
 
     return AuthenticationInterceptor;

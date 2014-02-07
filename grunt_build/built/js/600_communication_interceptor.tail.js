@@ -15,8 +15,18 @@
 
     CommunicationInterceptor.prototype.$_name = 'CommunicationInterceptor';
 
-    CommunicationInterceptor.prototype.interceptRejectedRequest = function(rejectedRequest) {
-      return CommunicationInterceptor.__super__.interceptRejectedRequest.apply(this, arguments);
+    CommunicationInterceptor.prototype.$_dependencies = ['$rootScope'];
+
+    CommunicationInterceptor.prototype.interceptRequest = function(request) {
+      return CommunicationInterceptor.__super__.interceptRequest.apply(this, arguments);
+    };
+
+    CommunicationInterceptor.prototype.interceptResponse = function(response) {
+      return CommunicationInterceptor.__super__.interceptResponse.apply(this, arguments);
+    };
+
+    CommunicationInterceptor.prototype.interceptRejectedResponse = function(rejectedResponse) {
+      return CommunicationInterceptor.__super__.interceptRejectedResponse.apply(this, arguments);
     };
 
     return CommunicationInterceptor;

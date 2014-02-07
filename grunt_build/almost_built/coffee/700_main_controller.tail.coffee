@@ -10,10 +10,20 @@ root.MainController = class MainController extends root.BaseController
 
 		@request = @newRequest()
 
+		@succeededRequests = new Array()
+		@failedRequests    = new Array()
+
 	newRequest: ->
 		request = new root.Request()
 		request.ruinable = yes
+		request.method   = 'GET'
 		request
 
 	makeRequest: ->
-		@$http @request
+		@$http( @request ).then @requestSucceeded, @requestFailed
+
+	requestSucceeded: ( response ) =>
+		@succeededRequests.push response?.config
+
+	requestFailed: ( rejectedResponse ) =>
+		@failedRequests.push response?.config

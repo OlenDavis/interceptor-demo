@@ -22,7 +22,7 @@ angular.module('myApp').run(['$templateCache', function($templateCache) {
 
 
   $templateCache.put('http://localhost/grunt_build/built/template/directive/edit-request.html',
-    "<div><div class=relative><input class=\"relative rounded text-input block whole-width less t-margin no-margin-when-first\" placeholder=\"Enter name for the request\" ng-model=request.name><input class=\"relative rounded text-input block whole-width less t-margin no-margin-when-first\" placeholder=\"Enter a URL\" ng-model=request.name></div></div>"
+    "<div><div class=relative><input class=\"relative rounded text-input block whole-width less t-margin no-margin-when-first\" placeholder=\"Enter name for the request\" ng-model=request.name ng-disabled=\"request.pending || ! editable\"><input class=\"relative rounded text-input block whole-width less t-margin no-margin-when-first\" placeholder=\"Enter a URL\" ng-model=request.url ng-disabled=\"request.pending || ! editable\"><my-busy-shield when=request.pending></my-busy-shield></div></div>"
   );
 
 
@@ -82,7 +82,7 @@ angular.module('myApp').run(['$templateCache', function($templateCache) {
 
 
   $templateCache.put('http://localhost/grunt_build/built/template/view/main.html',
-    "<div class=\"absolute tl br overflow-scroll padded inverse-this coloring\"><h1 class=\"b-margin text-shadowed\">The 3 WTFs of Angular Interceptors</h1><div class=\"rounded coloring inverse-shadow\"><div class=\"rounded inset-shadow padded clearfix\"><my-edit-request class=\"rounded less padded bordered\" request=MainController.request></my-edit-request><div class=clear></div><a class=\"right inline-block rounded hybrid-button less lr-padded t-margin\" ng-click=MainController.makeRequest()>Make Request</a></div></div></div>"
+    "<div class=\"absolute tl br overflow-scroll padded inverse-this coloring\"><h1 class=\"b-margin text-shadowed\">The 3 WTFs of Angular Interceptors</h1><div class=\"rounded coloring inverse-shadow\"><div class=\"rounded inset-shadow clearfix\"><div class=\"clearfix less padded\"><my-edit-request class=\"rounded less padded bordered less t-margin no-margin-when-first\" request=MainController.request editable=true></my-edit-request><div class=clear></div><a class=\"right inline-block rounded hybrid-button lr-padded less t-margin no-margin-when-first\" ng-click=MainController.makeRequest()>Make Request</a></div><div class=\"less margin padded rounded shadow\" ng-if=MainController.succeededRequests.length><h4 class=\"less t-margin no-margin-when-first\">Successful Requests</h4><div class=\"rounded less padded bordered less t-margin no-margin-when-first\" ng-repeat=\"request in MainController.succeededRequests\"><my-edit-request request=request></my-edit-request></div></div><div class=\"less margin padded rounded shadow\" ng-if=MainController.failedRequests.length><h4 class=\"less t-margin no-margin-when-first\">Failed Requests</h4><div class=\"rounded less padded bordered less t-margin no-margin-when-first\" ng-repeat=\"request in MainController.failedRequests\"><my-edit-request request=request></my-edit-request></div></div></div></div></div>"
   );
 
 }]);

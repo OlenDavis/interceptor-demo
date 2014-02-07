@@ -16,7 +16,8 @@
     EditRequest.prototype.$_name = 'EditRequest';
 
     EditRequest.prototype.scope = {
-      request: '='
+      request: '=',
+      editable: '=?'
     };
 
     return EditRequest;

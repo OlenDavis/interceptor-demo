@@ -5,24 +5,70 @@
 	</h1>
 
 	<div class="rounded coloring inverse-shadow">
-		<div class="rounded inset-shadow padded clearfix">
+		<div class="rounded inset-shadow clearfix">
 
-			<my-edit-request
-				class   ="rounded less padded bordered"
-				request ="MainController.request"
-			></my-edit-request>
+			<div class="clearfix less padded">
 
-			<div class="clear">
+				<my-edit-request
+					class   ="rounded less padded bordered less t-margin no-margin-when-first"
+					request ="MainController.request"
+					editable="true"
+				></my-edit-request>
+
+				<div class="clear">
+				</div>
+
+				<a
+					class="right inline-block rounded hybrid-button lr-padded less t-margin no-margin-when-first"
+					ng-click="MainController.makeRequest()"
+				>
+					Make Request
+				</a>
+
 			</div>
 
-			<a
-				class="right inline-block rounded hybrid-button less lr-padded t-margin"
-				ng-click="MainController.makeRequest()"
+			<div
+				class ="less margin padded rounded shadow"
+				ng-if ="MainController.succeededRequests.length"
 			>
-				Make Request
-			</a>
+
+				<h4 class="less t-margin no-margin-when-first">
+					Successful Requests
+				</h4>
+
+				<div
+					class     ="rounded less padded bordered less t-margin no-margin-when-first"
+					ng-repeat ="request in MainController.succeededRequests"
+				>
+					<my-edit-request
+						request="request"
+					></my-edit-request>
+				</div>
+
+			</div>
+
+			<div
+				class ="less margin padded rounded shadow"
+				ng-if ="MainController.failedRequests.length"
+			>
+
+				<h4 class="less t-margin no-margin-when-first">
+					Failed Requests
+				</h4>
+
+				<div
+					class     ="rounded less padded bordered less t-margin no-margin-when-first"
+					ng-repeat ="request in MainController.failedRequests"
+				>
+					<my-edit-request
+						request="request"
+					></my-edit-request>
+				</div>
+
+			</div>
 
 		</div>
+
 	</div>
 
 </div>

@@ -4,6 +4,7 @@ class EditRequest extends root.BaseTemplatedDirective
 	$_name: 'EditRequest'
 
 	scope:
-		request: '='
+		request : '='
+		editable: '=?'
 
 root.addDirective EditRequest

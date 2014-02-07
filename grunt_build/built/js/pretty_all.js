@@ -39507,8 +39507,18 @@ angular.module('ui.router.compat')
 
     AuthenticationInterceptor.prototype.$_name = 'AuthenticationInterceptor';
 
-    AuthenticationInterceptor.prototype.interceptRejectedRequest = function(rejectedRequest) {
-      return AuthenticationInterceptor.__super__.interceptRejectedRequest.apply(this, arguments);
+    AuthenticationInterceptor.prototype.$_dependencies = ['$rootScope'];
+
+    AuthenticationInterceptor.prototype.interceptRequest = function(request) {
+      return AuthenticationInterceptor.__super__.interceptRequest.apply(this, arguments);
+    };
+
+    AuthenticationInterceptor.prototype.interceptResponse = function(response) {
+      return AuthenticationInterceptor.__super__.interceptResponse.apply(this, arguments);
+    };
+
+    AuthenticationInterceptor.prototype.interceptRejectedResponse = function(rejectedResponse) {
+      return AuthenticationInterceptor.__super__.interceptRejectedResponse.apply(this, arguments);
     };
 
     return AuthenticationInterceptor;
@@ -39535,8 +39545,18 @@ angular.module('ui.router.compat')
 
     CommunicationInterceptor.prototype.$_name = 'CommunicationInterceptor';
 
-    CommunicationInterceptor.prototype.interceptRejectedRequest = function(rejectedRequest) {
-      return CommunicationInterceptor.__super__.interceptRejectedRequest.apply(this, arguments);
+    CommunicationInterceptor.prototype.$_dependencies = ['$rootScope'];
+
+    CommunicationInterceptor.prototype.interceptRequest = function(request) {
+      return CommunicationInterceptor.__super__.interceptRequest.apply(this, arguments);
+    };
+
+    CommunicationInterceptor.prototype.interceptResponse = function(response) {
+      return CommunicationInterceptor.__super__.interceptResponse.apply(this, arguments);
+    };
+
+    CommunicationInterceptor.prototype.interceptRejectedResponse = function(rejectedResponse) {
+      return CommunicationInterceptor.__super__.interceptRejectedResponse.apply(this, arguments);
     };
 
     return CommunicationInterceptor;
@@ -39544,6 +39564,51 @@ angular.module('ui.router.compat')
   })(root.BaseHttpInterceptor);
 
   root.addFactory(CommunicationInterceptor);
+
+}).call(this);
+;(function() {
+  var OuterInterceptor, root, _ref,
+    __hasProp = {}.hasOwnProperty,
+    __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+
+  root = window;
+
+  root.OuterInterceptor = OuterInterceptor = (function(_super) {
+    __extends(OuterInterceptor, _super);
+
+    function OuterInterceptor() {
+      _ref = OuterInterceptor.__super__.constructor.apply(this, arguments);
+      return _ref;
+    }
+
+    OuterInterceptor.prototype.$_name = 'OuterInterceptor';
+
+    OuterInterceptor.prototype.interceptRequest = function(request) {
+      if (request.ruinable) {
+        request.pending = true;
+      }
+      return OuterInterceptor.__super__.interceptRequest.apply(this, arguments);
+    };
+
+    OuterInterceptor.prototype.interceptResponse = function(response) {
+      if (response.ruinable) {
+        response.pending = false;
+      }
+      return OuterInterceptor.__super__.interceptResponse.apply(this, arguments);
+    };
+
+    OuterInterceptor.prototype.interceptResponse = function(rejectedResponse) {
+      if (rejectedResponse.ruinable) {
+        rejectedResponse.pending = false;
+      }
+      return OuterInterceptor.__super__.interceptResponse.apply(this, arguments);
+    };
+
+    return OuterInterceptor;
+
+  })(root.BaseHttpInterceptor);
+
+  root.addFactory(OuterInterceptor);
 
 }).call(this);
 ;(function() {
@@ -39598,6 +39663,7 @@ angular.module('ui.router.compat')
 }).call(this);
 ;(function() {
   var MainController, root,
+    __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
     __hasProp = {}.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
@@ -39611,19 +39677,32 @@ angular.module('ui.router.compat')
     MainController.prototype.$_dependencies = ['$http'];
 
     function MainController() {
+      this.requestFailed = __bind(this.requestFailed, this);
+      this.requestSucceeded = __bind(this.requestSucceeded, this);
       MainController.__super__.constructor.apply(this, arguments);
       this.request = this.newRequest();
+      this.succeededRequests = new Array();
+      this.failedRequests = new Array();
     }
 
     MainController.prototype.newRequest = function() {
       var request;
       request = new root.Request();
       request.ruinable = true;
+      request.method = 'GET';
       return request;
     };
 
     MainController.prototype.makeRequest = function() {
-      return this.$http(this.request);
+      return this.$http(this.request).then(this.requestSucceeded, this.requestFailed);
+    };
+
+    MainController.prototype.requestSucceeded = function(response) {
+      return this.succeededRequests.push(response != null ? response.config : void 0);
+    };
+
+    MainController.prototype.requestFailed = function(rejectedResponse) {
+      return this.failedRequests.push(typeof response !== "undefined" && response !== null ? response.config : void 0);
     };
 
     return MainController;
@@ -39794,7 +39873,8 @@ angular.module('ui.router.compat')
     EditRequest.prototype.$_name = 'EditRequest';
 
     EditRequest.prototype.scope = {
-      request: '='
+      request: '=',
+      editable: '=?'
     };
 
     return EditRequest;
@@ -40857,6 +40937,7 @@ angular.module('ui.router.compat')
     };
 
     AppConfig.prototype.setupInterceptors = function() {
+      this.addLowestPrecedenceInterceptor(root.OuterInterceptor);
       this.addHighestPrecedenceInterceptor(root.AuthenticationInterceptor);
       this.addHighestPrecedenceInterceptor(root.CommunicationInterceptor);
       return this.addHighestPrecedenceInterceptor(root.RuinousInterceptor);
@@ -40905,7 +40986,7 @@ angular.module('ui.router.compat')
 
 
   $templateCache.put('http://localhost/grunt_build/built/template/directive/edit-request.html',
-    "<div><div class=relative><input class=\"relative rounded text-input block whole-width less t-margin no-margin-when-first\" placeholder=\"Enter name for the request\" ng-model=request.name><input class=\"relative rounded text-input block whole-width less t-margin no-margin-when-first\" placeholder=\"Enter a URL\" ng-model=request.name></div></div>"
+    "<div><div class=relative><input class=\"relative rounded text-input block whole-width less t-margin no-margin-when-first\" placeholder=\"Enter name for the request\" ng-model=request.name ng-disabled=\"request.pending || ! editable\"><input class=\"relative rounded text-input block whole-width less t-margin no-margin-when-first\" placeholder=\"Enter a URL\" ng-model=request.url ng-disabled=\"request.pending || ! editable\"><my-busy-shield when=request.pending></my-busy-shield></div></div>"
   );
 
 
@@ -40965,7 +41046,7 @@ angular.module('ui.router.compat')
 
 
   $templateCache.put('http://localhost/grunt_build/built/template/view/main.html',
-    "<div class=\"absolute tl br overflow-scroll padded inverse-this coloring\"><h1 class=\"b-margin text-shadowed\">The 3 WTFs of Angular Interceptors</h1><div class=\"rounded coloring inverse-shadow\"><div class=\"rounded inset-shadow padded clearfix\"><my-edit-request class=\"rounded less padded bordered\" request=MainController.request></my-edit-request><div class=clear></div><a class=\"right inline-block rounded hybrid-button less lr-padded t-margin\" ng-click=MainController.makeRequest()>Make Request</a></div></div></div>"
+    "<div class=\"absolute tl br overflow-scroll padded inverse-this coloring\"><h1 class=\"b-margin text-shadowed\">The 3 WTFs of Angular Interceptors</h1><div class=\"rounded coloring inverse-shadow\"><div class=\"rounded inset-shadow clearfix\"><div class=\"clearfix less padded\"><my-edit-request class=\"rounded less padded bordered less t-margin no-margin-when-first\" request=MainController.request editable=true></my-edit-request><div class=clear></div><a class=\"right inline-block rounded hybrid-button lr-padded less t-margin no-margin-when-first\" ng-click=MainController.makeRequest()>Make Request</a></div><div class=\"less margin padded rounded shadow\" ng-if=MainController.succeededRequests.length><h4 class=\"less t-margin no-margin-when-first\">Successful Requests</h4><div class=\"rounded less padded bordered less t-margin no-margin-when-first\" ng-repeat=\"request in MainController.succeededRequests\"><my-edit-request request=request></my-edit-request></div></div><div class=\"less margin padded rounded shadow\" ng-if=MainController.failedRequests.length><h4 class=\"less t-margin no-margin-when-first\">Failed Requests</h4><div class=\"rounded less padded bordered less t-margin no-margin-when-first\" ng-repeat=\"request in MainController.failedRequests\"><my-edit-request request=request></my-edit-request></div></div></div></div></div>"
   );
 
 }]);

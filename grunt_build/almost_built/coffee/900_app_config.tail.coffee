@@ -16,6 +16,8 @@ class AppConfig extends root.StatefulConfigBlock
 			controller : root.MainController
 
 	setupInterceptors: ->
+		@addLowestPrecedenceInterceptor root.OuterInterceptor
+
 		@addHighestPrecedenceInterceptor root.AuthenticationInterceptor
 		@addHighestPrecedenceInterceptor root.CommunicationInterceptor
 

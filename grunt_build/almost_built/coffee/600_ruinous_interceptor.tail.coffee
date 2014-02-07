@@ -15,7 +15,6 @@ root.RuinousInterceptor = class RuinousInterceptor extends root.BaseHttpIntercep
 
 	interceptRequest: ( request ) ->
 		if request.ruinable
-
 			request.communicationFailed  = Math.random() > @$rootScope.communicationOdds
 			request.authenticationFailed = Math.random() > @$rootScope.authenticationOdds
 
@@ -23,7 +22,6 @@ root.RuinousInterceptor = class RuinousInterceptor extends root.BaseHttpIntercep
 				super
 			else
 				return new root.RejectedRequest request
-
 		else
 			super
 
